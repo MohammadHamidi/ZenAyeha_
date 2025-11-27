@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>زندگی با آیه‌ها - گفتگوی هوشمند</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="Icon.png">
+</head>
+
+<body>
+    <!-- Wizard Container -->
+    <div id="wizard-container" class="wizard-container">
+        <div class="wizard-card">
+            <div class="wizard-header">
+                <div class="logo-container">
+                    <img src="Icon.png" alt="زندگی با آیه‌ها" class="logo-icon">
+                    <div class="logo-text">
+                        <h1 class="logo-title">زندگی با آیه‌ها</h1>
+                        <p class="logo-subtitle">آیات قرآن را بخوانیم، حفظ و زندگی کنیم</p>
+                    </div>
+                </div>
+                <p class="wizard-subtitle">برای تجربه بهتر، به چند سوال کوتاه پاسخ دهید</p>
+            </div>
+
+            <!-- Progress Section -->
+            <div class="progress-section">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text" id="progress-text">سوال 1 از 3</div>
+            </div>
+
+            <!-- Question 1 -->
+            <div class="question-slide active" id="question-1">
+                <h2 class="question-title">بیشتر با چه کسانی در ارتباط هستید؟</h2>
+                <div class="options">
+                    <button class="option-btn" data-question="q1" data-value="students">
+                        <span class="emoji">👨‍🎓</span>
+                        <span>دانش‌آموزان</span>
+                    </button>
+                    <button class="option-btn" data-question="q1" data-value="families">
+                        <span class="emoji">👨‍👩‍👧</span>
+                        <span>خانواده‌ها و والدین</span>
+                    </button>
+                    <button class="option-btn" data-question="q1" data-value="mosque_people">
+                        <span class="emoji">🕌</span>
+                        <span>افراد و گروه‌های مسجدی</span>
+                    </button>
+                    <button class="option-btn" data-question="q1" data-value="religious_audience">
+                        <span class="emoji">📖</span>
+                        <span>مخاطبان جلسات دینی</span>
+                    </button>
+                    <button class="option-btn" data-question="q1" data-value="peers">
+                        <span class="emoji">🧑‍🤝‍🧑</span>
+                        <span>هم‌سالان و دوستان</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question-slide" id="question-2">
+                <h2 class="question-title">چه نوع موضوعاتی برای شما مرتبط‌تر است؟</h2>
+                <div class="options">
+                    <button class="option-btn" data-question="q2" data-value="education">
+                        <span class="emoji">📚</span>
+                        <span>آموزش و مدیریت کلاس</span>
+                    </button>
+                    <button class="option-btn" data-question="q2" data-value="parenting">
+                        <span class="emoji">👶</span>
+                        <span>تربیت فرزند</span>
+                    </button>
+                    <button class="option-btn" data-question="q2" data-value="mosque_activities">
+                        <span class="emoji">🎯</span>
+                        <span>فعالیت‌های مسجد</span>
+                    </button>
+                    <button class="option-btn" data-question="q2" data-value="tabligh">
+                        <span class="emoji">🎤</span>
+                        <span>تبلیغ و سخنرانی</span>
+                    </button>
+                    <button class="option-btn" data-question="q2" data-value="teen_issues">
+                        <span class="emoji">🌱</span>
+                        <span>مسائل نوجوانی</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question-slide" id="question-3">
+                <h2 class="question-title">کدام توصیف بیشتر به نقش شما نزدیک است؟</h2>
+                <div class="options">
+                    <button class="option-btn" data-question="q3" data-value="teacher_self_role">
+                        <span class="emoji">👨‍🏫</span>
+                        <span>معلم یا مربی</span>
+                    </button>
+                    <button class="option-btn" data-question="q3" data-value="parent_self_role">
+                        <span class="emoji">👪</span>
+                        <span>والد یا مراقب کودک</span>
+                    </button>
+                    <button class="option-btn" data-question="q3" data-value="mosque_activist_self_role">
+                        <span class="emoji">🌟</span>
+                        <span>فعال فرهنگی مسجد</span>
+                    </button>
+                    <button class="option-btn" data-question="q3" data-value="preacher_self_role">
+                        <span class="emoji">🎓</span>
+                        <span>مبلغ یا سخنران</span>
+                    </button>
+                    <button class="option-btn" data-question="q3" data-value="teen_self_role">
+                        <span class="emoji">🎒</span>
+                        <span>نوجوان یا دانش‌آموز</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="nav-buttons">
+                <button id="back-btn" class="nav-btn secondary" style="display: none;">بازگشت</button>
+                <button id="next-btn" class="nav-btn primary" style="display: none;">بعدی</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Container (hidden initially) -->
+    <div id="chat-container" style="display: none;">
+        <div id="chat-wrapper"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="wizard.js"></script>
+</body>
+
+</html>
