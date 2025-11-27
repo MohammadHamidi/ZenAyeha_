@@ -1,10 +1,9 @@
-version: '3.8'
-
 services:
   zenayeha:
     build:
       context: .
       dockerfile: Dockerfile
+    image: zenayeha:latest
     container_name: zenayeha
     restart: unless-stopped
     ports:

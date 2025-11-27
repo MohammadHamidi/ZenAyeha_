@@ -10,12 +10,16 @@ COPY package*.json ./
 # Install dependencies
 RUN npm ci --only=production
 
-# Copy application files
+# Copy Vazirmatn fonts directory first (for better layer caching)
+COPY Vazirmatn/ ./Vazirmatn/
+
+# Copy all other application files (excluding node_modules which is ignored by .dockerignore)
+# This includes HTML, CSS, JS, server.js, Icon.png, etc.
 COPY . .
 
 # Create non-root user for security
 RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nodejs -u 1001
+  adduser -S nodejs -u 1001
 
 # Change ownership of app directory
 RUN chown -R nodejs:nodejs /app
