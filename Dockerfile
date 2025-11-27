@@ -1,6 +1,13 @@
 # Use official Node.js runtime as base image
 FROM node:18-alpine
 
+# Build arguments (used by Coolify)
+ARG SOURCE_COMMIT
+ARG COOLIFY_URL
+ARG COOLIFY_FQDN
+ARG SERVICE_FQDN_ZENAYEHA
+ARG SERVICE_URL_ZENAYEHA
+
 # Set working directory
 WORKDIR /app
 

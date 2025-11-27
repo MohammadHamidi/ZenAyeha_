@@ -294,18 +294,18 @@ async function initializeDifyChatViaAPI() {
     // Create custom chat UI
     const chatWrapper = document.getElementById('chat-wrapper');
     chatWrapper.innerHTML = `
-        <div id="custom-chat" style="display: flex; flex-direction: column; height: 100vh; background: #f8fafc;">
-            <div id="chat-header" style="padding: 20px 24px; background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%); border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 14px;">
-                <img src="Icon.png" alt="زندگی با آیه‌ها" style="width: 48px; height: 48px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">
-                <div style="flex: 1;">
-                    <h2 style="margin: 0; font-size: 20px; font-weight: 700; color: #ffffff;">زندگی با آیه‌ها</h2>
-                    <p style="margin: 3px 0 0 0; font-size: 13px; color: rgba(255,255,255,0.85);">${wizardPayload.persona}</p>
+        <div id="custom-chat">
+            <div id="chat-header">
+                <img src="Icon.png" alt="زندگی با آیه‌ها">
+                <div>
+                    <h2>زندگی با آیه‌ها</h2>
+                    <p>${wizardPayload.persona}</p>
                 </div>
             </div>
-            <div id="messages" style="flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 16px; background: #f8fafc;"></div>
-            <div id="input-area" style="padding: 18px 24px; border-top: 1px solid #e2e8f0; background: white; display: flex; gap: 12px;">
-                <input type="text" id="user-input" placeholder="پیام خود را بنویسید..." style="flex: 1; padding: 14px 18px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 15px; font-family: inherit; background: #f8fafc; transition: border-color 0.2s;" />
-                <button id="send-btn" style="padding: 14px 28px; background: linear-gradient(135deg, #22c55e 0%, #4ade80 100%); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 15px; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);">ارسال</button>
+            <div id="messages"></div>
+            <div id="input-area">
+                <input type="text" id="user-input" placeholder="پیام خود را بنویسید...">
+                <button id="send-btn">ارسال</button>
             </div>
         </div>
     `;
@@ -440,13 +440,15 @@ async function initializeDifyChatViaAPI() {
 
     // Add interactive styles
     userInput.addEventListener('focus', function () {
-        this.style.borderColor = '#22c55e';
-        this.style.background = 'white';
+        this.classList.add('focused');
+        // Scroll input into view on mobile when keyboard appears
+        setTimeout(() => {
+            this.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 300);
     });
 
     userInput.addEventListener('blur', function () {
-        this.style.borderColor = '#e2e8f0';
-        this.style.background = '#f8fafc';
+        this.classList.remove('focused');
     });
 
     sendBtn.addEventListener('mouseenter', function () {
