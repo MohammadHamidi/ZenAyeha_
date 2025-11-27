@@ -15,7 +15,17 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static files from the current directory
 app.use(express.static(path.join(__dirname), {
     maxAge: '1d', // Cache static files for 1 day
-    etag: true
+    etag: true,
+    setHeaders: (res, filePath) => {
+        // Set proper MIME types for font files
+        if (filePath.endsWith('.ttf')) {
+            res.setHeader('Content-Type', 'font/ttf');
+        } else if (filePath.endsWith('.woff')) {
+            res.setHeader('Content-Type', 'font/woff');
+        } else if (filePath.endsWith('.woff2')) {
+            res.setHeader('Content-Type', 'font/woff2');
+        }
+    }
 }));
 
 // Health check endpoint
