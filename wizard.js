@@ -85,6 +85,35 @@ async function initializeDifyChatViaAPI() {
     `;
 
     let conversationId = null;
+    let loadingInterval = null;
+
+    // Loading messages array for animated loading indicator
+    const loadingMessages = [
+        'در حال پردازش',
+        'در حال پردازش.',
+        'در حال پردازش..',
+        'در حال پردازش...',
+        'در حال جمع آوری اطلاعات',
+        'در حال جمع آوری اطلاعات.',
+        'در حال جمع آوری اطلاعات..',
+        'در حال جمع آوری اطلاعات...',
+        'در حال پردازش',
+        'در حال پردازش.',
+        'در حال پردازش..',
+        'در حال پردازش...',
+        'در حال نوشتن جواب',
+        'در حال نوشتن جواب.',
+        'در حال نوشتن جواب..',
+        'در حال پردازش',
+        'در حال پردازش.',
+        'در حال پردازش..',
+        'در حال پردازش...',
+        'در حال تحلیل',
+        'در حال تحلیل.',
+        'در حال تحلیل..',
+        'در حال تحلیل...',
+        'در حال پردازش...'
+    ];
 
     function parseMarkdown(content) {
         if (typeof marked === 'undefined') return content;
@@ -92,6 +121,33 @@ async function initializeDifyChatViaAPI() {
             return typeof marked.parse === 'function' ? marked.parse(content) : marked(content);
         } catch (e) {
             return content;
+        }
+    }
+
+    function startLoadingAnimation(messageElement, messageContentElement) {
+        let messageIndex = 0;
+        const minInterval = 800; // Minimum 800ms per message
+        const maxInterval = 1500; // Maximum 1500ms per message
+
+        function updateMessage() {
+            if (messageElement && messageContentElement) {
+                messageContentElement.textContent = loadingMessages[messageIndex];
+                messageIndex = (messageIndex + 1) % loadingMessages.length;
+
+                // Random interval between messages for more natural feel
+                const randomInterval = Math.floor(Math.random() * (maxInterval - minInterval + 1)) + minInterval;
+                loadingInterval = setTimeout(updateMessage, randomInterval);
+            }
+        }
+
+        // Start with first message immediately
+        updateMessage();
+    }
+
+    function stopLoadingAnimation() {
+        if (loadingInterval) {
+            clearTimeout(loadingInterval);
+            loadingInterval = null;
         }
     }
 
@@ -122,7 +178,13 @@ async function initializeDifyChatViaAPI() {
 
     async function sendMessage(msg) {
         addMessage(msg, true);
-        const loading = addMessage('در حال پردازش...', false);
+        const loading = addMessage('در حال پردازش', false);
+
+        // Find the message content element to update
+        const messageContentElement = loading.querySelector('.message-content');
+
+        // Start the animated loading messages
+        startLoadingAnimation(loading, messageContentElement);
 
         try {
             const body = {
@@ -144,9 +206,13 @@ async function initializeDifyChatViaAPI() {
             const data = await res.json();
             if (data.conversation_id) conversationId = data.conversation_id;
 
+            // Stop loading animation before removing/updating the message
+            stopLoadingAnimation();
             loading.remove();
             addMessage(data.answer || 'خطا در دریافت پاسخ', false);
         } catch (err) {
+            // Stop loading animation on error
+            stopLoadingAnimation();
             loading.remove();
             addMessage(`خطا: ${err.message}`, false);
         }
