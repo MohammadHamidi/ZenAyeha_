@@ -125,28 +125,32 @@ async function initializeDifyChatViaAPI() {
     }
 
     function startLoadingAnimation(messageElement, messageContentElement) {
+        // Always clear any previous animation before starting a new one
+        stopLoadingAnimation();
+
+        const target = messageContentElement || messageElement;
+        if (!target) return;
+
         let messageIndex = 0;
-        const minInterval = 800; // Minimum 800ms per message
-        const maxInterval = 1500; // Maximum 1500ms per message
 
-        function updateMessage() {
-            if (messageElement && messageContentElement) {
-                messageContentElement.textContent = loadingMessages[messageIndex];
-                messageIndex = (messageIndex + 1) % loadingMessages.length;
+        // Show first message immediately
+        target.textContent = loadingMessages[messageIndex];
+        messageIndex = (messageIndex + 1) % loadingMessages.length;
 
-                // Random interval between messages for more natural feel
-                const randomInterval = Math.floor(Math.random() * (maxInterval - minInterval + 1)) + minInterval;
-                loadingInterval = setTimeout(updateMessage, randomInterval);
+        // Then cycle every second (simple and reliable)
+        loadingInterval = setInterval(() => {
+            if (!target) {
+                stopLoadingAnimation();
+                return;
             }
-        }
-
-        // Start with first message immediately
-        updateMessage();
+            target.textContent = loadingMessages[messageIndex];
+            messageIndex = (messageIndex + 1) % loadingMessages.length;
+        }, 1000);
     }
 
     function stopLoadingAnimation() {
         if (loadingInterval) {
-            clearTimeout(loadingInterval);
+            clearInterval(loadingInterval);
             loadingInterval = null;
         }
     }
